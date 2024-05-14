@@ -12,7 +12,7 @@ const bcrypt = require('bcrypt')
 const PUBLISHABLE_KEY = "pk_test_51PBcHOSHekcWlW0r1tDBchWcz3LbE7A5BsBqd4LfCEt0x1vmhuDDPie5t3NfnDnZXirHgJLdXm75Du5oSnT3IIxu006wwsj0OO"
 const SECRET_KEY = "sk_test_51PBcHOSHekcWlW0rf46yCMHOhMFVekHtPxBJXimRu1FYZvBHHCVwvYzoui1IYCHFcjhKHpr9l2o0zQ6QmJKGFkbo00h3AheUjg"
 const stripe = require("stripe")(SECRET_KEY)
-const SERVER_DOMAIN = 'http://localhost:9000'
+const SERVER_DOMAIN = 'https://ecommerce-backend-2r67.onrender.com'
 // Mongoose.connect("mongodb+srv://user:user@cluster0.p5mydsy.mongodb.net/products?retryWrites=true&w=majority&appName=Cluster0")
 const mongoose = require('mongoose');
 
@@ -182,14 +182,15 @@ App.post("/api/create-checkout-session", async function (req, res) {
     const { products } = req.body;
    
     const lineItems = products.map((product) => ({
+        
         price_data: {
             currency: "INR",
             product_data: {
                 name: product.title,
                 images: [product.image]
             },
-            unit_amount: Math.round(product.price * 100)
-           
+            unit_amount: Math.round(product.price*100)
+            
         },
         quantity: product.quantity
     }))
@@ -206,6 +207,6 @@ App.post("/api/create-checkout-session", async function (req, res) {
     res.json({ id: session.id }) 
  
 })
-App.listen(9000, function () {
-    console.log("server is running on port 9000")
+App.listen(SERVER_DOMAIN, function () {
+    console.log("server is live on internet")
 })
